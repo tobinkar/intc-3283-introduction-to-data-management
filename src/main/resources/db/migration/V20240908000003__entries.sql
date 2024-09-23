@@ -1,0 +1,3 @@
+ALTER TABLE `entries`
+    ADD COLUMN `phone_number` VARCHAR(15) DEFAULT NULL,
+    ADD COLUMN `dream_job`   VARCHAR(30) DEFAULT NULL;

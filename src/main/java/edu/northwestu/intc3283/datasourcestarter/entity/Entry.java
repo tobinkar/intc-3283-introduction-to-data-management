@@ -3,11 +3,12 @@ package edu.northwestu.intc3283.datasourcestarter.entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.BooleanFlag;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.validation.annotation.Validated;
+
 import java.time.Instant;
 
 @Table("entries")
@@ -27,6 +28,15 @@ public class Entry {
 
     @CreatedDate
     private Instant createdAt;
+
+    @Column("favorite_color")
+    private String favoriteColor;
+
+    @Column("phone_number")
+    private String phoneNumber;
+
+    @Column("dream_job")
+    private String dreamJob;
 
     public Long getId() {
         return id;
@@ -59,4 +69,16 @@ public class Entry {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getFavoriteColor() { return favoriteColor; }
+
+    public void setFavoriteColor(String favoriteColor) { this.favoriteColor = favoriteColor; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getDreamJob() { return dreamJob; }
+
+    public void setDreamJob(String dreamJob) { this.dreamJob = dreamJob; }
 }

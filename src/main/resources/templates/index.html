@@ -14,8 +14,24 @@
 
             <p>Are you ready to make your first database entry?</p>
             <a th:href="@{/entries/new}" class="btn btn-primary">Create an Entry</a>
+
+            <table class="table">
+                <tbody>
+                    <tr th:each="entry: ${entries}">
+                        <td th:text="${entry.id}">Id</td>
+                        <td th:text="${entry.name}">Name</td>
+                        <td th:text="${entry.email}">Email</td>
+                        <td th:text="${entry.favoriteColor}">FavoriteColor</td>
+                        <td th:text="${entry.phoneNumber}">PhoneNumber</td>
+                        <td th:text="${entry.dreamJob}">DreamJob</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
+
+
 
 </div>
 

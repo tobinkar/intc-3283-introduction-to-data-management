@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import java.util.*;
 
 @Controller
 public class IndexController {
@@ -21,7 +22,9 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String indexAction() {
+    public String indexAction(final Model model) {
+        Iterable<Entry> entries = this.entryRepository.findAll();
+        model.addAttribute("entries", entries);
         return "index";
     }
 
