@@ -56,7 +56,7 @@ public class DonorsController {
 
     @GetMapping("/report")
     public String topDonorsReport(Model model) {
-        model.addAttribute("topDonors", donorRepository.findTopDonations());
+        model.addAttribute("topDonors", donorRepository.findTopDonors(5));
         return "donors/report";
     }
 

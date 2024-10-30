@@ -7,14 +7,12 @@ import edu.northwestu.intc3283.datasourcestarter.repository.DonationsRepository;
 import edu.northwestu.intc3283.datasourcestarter.repository.DonorsRepository;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.stream.IntStream;
-import static java.lang.Math.abs;
 
 @Service
 public class DataGeneratorService {
@@ -41,6 +39,7 @@ public class DataGeneratorService {
             donor.setCity(faker.address().city());
             donor.setState(faker.address().stateAbbr());
             donor.setZipCode(faker.address().zipCode());
+            donor.setPhone(faker.phoneNumber().phoneNumber());
             donorsRepository.save(donor);
 
             // Generate a random number of donations for this donor

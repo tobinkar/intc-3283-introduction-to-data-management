@@ -13,26 +13,27 @@ public interface DonorsRepository extends CrudRepository<Donor, Long> {
     List<Donor> findTop10ByOrderByCreatedAtDesc();
 
     @Query("""
-
-            SELECT
-                  d.first_name AS firstName,
-                  d.last_name AS lastName,
-                  d.email AS email,
-                  YEAR(dn.committed_at) AS year,
-                  MONTH(dn.committed_at) AS month,
-                  SUM(dn.currency_amount) AS totalDonationAmount
-              FROM
-                  donors d
-              JOIN
-                  donations dn ON d.donor_id = dn.donor_id
-              GROUP BY
-                  d.donor_id,
-                  YEAR(dn.committed_at),
-                  MONTH(dn.committed_at)
-              ORDER BY
-                  YEAR(dn.committed_at) DESC,
-                  MONTH(dn.committed_at) DESC,
-                  SUM(dn.currency_amount) DESC;
-""")
-    List<TopDonationReportDTO> findTopDonations();
+            
+                        SELECT
+                              d.first_name AS firstName,
+                              d.last_name AS lastName,
+                              d.email AS email,
+                              YEAR(dn.created_at) AS year,
+                              MONTH(dn.created_at) AS month,
+                              SUM(dn.amount) AS totalDonationAmount
+                          FROM
+                              donors d
+                          JOIN
+                              donations dn ON d.id = dn.donor_id
+                          GROUP BY
+                              d.id,
+                              YEAR(dn.created_at),
+                              MONTH(dn.created_At)
+                          ORDER BY
+                              YEAR(dn.created_at) DESC,
+                              MONTH(dn.created_at) DESC,
+                              SUM(dn.amount) DESC
+                        LIMIT :limit
+            """)
+    List<TopDonationReportDTO> findTopDonors(Integer limit);
 }
