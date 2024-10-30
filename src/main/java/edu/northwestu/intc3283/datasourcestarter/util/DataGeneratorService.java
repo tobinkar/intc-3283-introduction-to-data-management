@@ -39,7 +39,7 @@ public class DataGeneratorService {
             donor.setCity(faker.address().city());
             donor.setState(faker.address().stateAbbr());
             donor.setZipCode(faker.address().zipCode());
-            donor.setPhone(faker.phoneNumber().phoneNumber());
+            donor.setPhone(faker.phoneNumber().cellPhone().substring(0,12));
             donorsRepository.save(donor);
 
             // Generate a random number of donations for this donor
