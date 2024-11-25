@@ -7,10 +7,10 @@ import edu.northwestu.intc3283.datasourcestarter.repository.DonationsRepository;
 import edu.northwestu.intc3283.datasourcestarter.repository.DonorsRepository;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.ZoneId;
+
+import java.time.*;
+import java.time.temporal.TemporalAmount;
+import java.util.Date;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -39,8 +39,10 @@ public class DataGeneratorService {
             donor.setCity(faker.address().city());
             donor.setState(faker.address().stateAbbr());
             donor.setZipCode(faker.address().zipCode());
-            donor.setPhone(faker.phoneNumber().cellPhone().substring(0,12));
+            donor.setPhone(faker.phoneNumber().cellPhone().substring(0, 12));
             donorsRepository.save(donor);
+
+
 
             // Generate a random number of donations for this donor
             int numDonations = random.nextInt(maxDonationsPerDonor) + 1;
@@ -51,6 +53,16 @@ public class DataGeneratorService {
                 String quote = faker.yoda().quote();
                 donation.setCreatedAt(generateRandomDate());
                 donationsRepository.save(donation);
+                donation.setCreatedAt(
+                        faker
+                                .date()
+                                .between(
+                                        Date.from(Instant.now().minus(Duration.ofDays(90L))),
+                                        Date.from(Instant.now())
+                                )
+                                .toInstant());
+                this.donationsRepository.save(donation);
+
             });
         });
     }
@@ -84,6 +96,6 @@ public class DataGeneratorService {
 
     // Utility method for generating a random donation amount
     private Integer generateRandomAmount() {
-        return random.nextInt(10,1000);
+        return random.nextInt(10, 1000);
     }
 }
