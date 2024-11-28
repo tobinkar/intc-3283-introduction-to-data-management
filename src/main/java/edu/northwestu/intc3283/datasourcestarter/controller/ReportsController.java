@@ -36,4 +36,12 @@ public class ReportsController {
 
         return "donors/monthlydonations";
     }
+
+    @GetMapping("/user-by-first-donation")
+    public String userDonationReport(Model model) {
+        model.addAttribute("report", this.donorsRepository
+                .userByFirstDonationReport());
+
+        return "donors/userbyfirstdonation";
+    }
 }

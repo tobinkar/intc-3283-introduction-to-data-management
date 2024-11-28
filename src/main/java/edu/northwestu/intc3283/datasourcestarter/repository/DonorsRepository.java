@@ -4,6 +4,7 @@ import edu.northwestu.intc3283.datasourcestarter.entity.Donor;
 import edu.northwestu.intc3283.datasourcestarter.reports.TopDonationReportDTO;
 import edu.northwestu.intc3283.datasourcestarter.reports.WeeklyDonationRow;
 import edu.northwestu.intc3283.datasourcestarter.reports.MonthlyDonationRow;
+import edu.northwestu.intc3283.datasourcestarter.reports.UserByFirstDonationRow;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -71,4 +72,28 @@ public interface DonorsRepository extends CrudRepository<Donor, Long> {
     )
     List<MonthlyDonationRow> monthlyDonationReport(@Param("started_at") LocalDate startedAt,
                                                  @Param("ended_at") LocalDate endedAt);
+
+    @Query(
+            """
+            select
+                donor.first_name,
+                donor.last_name,
+                donor.address1,
+                donor.address2,
+                donor.city,
+                donor.state,
+                donor.zip_code,
+                donation.amount
+            from donors donor
+                     left join (
+                        select
+                            donor_id,
+                            MIN(id) as first_donation_id
+                        from donations
+                        group by donor_id) fd on donor.id = fd.donor_id
+                     left join
+                 nu.donations donation on fd.first_donation_id = donation.id
+            """
+    )
+    List<UserByFirstDonationRow> userByFirstDonationReport();
 }

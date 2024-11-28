@@ -1,6 +1,8 @@
 package edu.northwestu.intc3283.datasourcestarter.reports;
 
 public class MonthlyDonationRow {
+
+
     private String donationMonth;
     private Integer totalDonated;
 
