@@ -1,10 +1,7 @@
 package edu.northwestu.intc3283.datasourcestarter.repository;
 
 import edu.northwestu.intc3283.datasourcestarter.entity.Donor;
-import edu.northwestu.intc3283.datasourcestarter.reports.TopDonationReportDTO;
-import edu.northwestu.intc3283.datasourcestarter.reports.WeeklyDonationRow;
-import edu.northwestu.intc3283.datasourcestarter.reports.MonthlyDonationRow;
-import edu.northwestu.intc3283.datasourcestarter.reports.UserByFirstDonationRow;
+import edu.northwestu.intc3283.datasourcestarter.reports.*;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -96,4 +93,17 @@ public interface DonorsRepository extends CrudRepository<Donor, Long> {
             """
     )
     List<UserByFirstDonationRow> userByFirstDonationReport();
+
+    @Query(
+            """
+            select
+                d.first_name,
+                d.last_name,
+                d.phone
+            from donors d
+            where (d.address1 = '' or d.city = '' or d.state = '' or d.zip_code = '') and d.phone is not null
+            """
+    )
+    List<UserByPhoneNumber> userByPhoneNumberReport();
+
 }

@@ -44,4 +44,12 @@ public class ReportsController {
 
         return "donors/userbyfirstdonation";
     }
+
+    @GetMapping("/user-by-phone-number")
+    public String userPhoneReport(Model model) {
+        model.addAttribute("report", this.donorsRepository
+                .userByPhoneNumberReport());
+
+        return "donors/userbyphonenumber";
+    }
 }
